@@ -31,4 +31,9 @@ class CustomerRepository {
   final result = db.select('SELECT 1 FROM customers WHERE customer_id = ?', [id]);
   return result.isNotEmpty;
 }
+Customer? getById(int id) {
+  final result = db.select('SELECT * FROM customers WHERE customer_id = ?', [id]);
+  if (result.isEmpty) return null;
+  return Customer.fromMap(result.first);
+}
 }

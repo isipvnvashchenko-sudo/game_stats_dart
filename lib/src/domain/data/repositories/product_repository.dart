@@ -56,4 +56,9 @@ class ProductRepository {
   final result = db.select('SELECT 1 FROM products WHERE product_id = ?', [id]);
   return result.isNotEmpty;
 }
+Product? getById(int id) {
+  final result = db.select('SELECT * FROM products WHERE product_id = ?', [id]);
+  if (result.isEmpty) return null;
+  return Product.fromMap(result.first);
+}
 }

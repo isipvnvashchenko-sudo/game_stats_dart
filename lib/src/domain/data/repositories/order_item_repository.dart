@@ -27,4 +27,9 @@ class OrderItemRepository {
   void delete(int id) {
     db.execute('DELETE FROM order_items WHERE order_item_id = ?', [id]);
   }
+  OrderItem? getById(int id) {
+  final result = db.select('SELECT * FROM order_items WHERE order_item_id = ?', [id]);
+  if (result.isEmpty) return null;
+  return OrderItem.fromMap(result.first);
+}
 }

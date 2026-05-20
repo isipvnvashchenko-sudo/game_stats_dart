@@ -23,73 +23,63 @@ class Menu {
 ======== ЗООМАГАЗИН ========
 
 1. Категории: добавить
-2. Категории: показать
-3. Категории: удалить
-4. Товары: добавить
-5. Товары: показать
-6. Товары: удалить
-7. Покупатели: добавить
-8. Покупатели: показать
-9. Покупатели: удалить
-10. Заказы: добавить
-11. Заказы: показать
-12. Заказы: удалить
-13. Элементы заказа: добавить
-14. Элементы заказа: показать
-15. Элементы заказа: удалить
-16. Выход
+2. Категории: показать все
+3. Категории: найти по ID
+4. Категории: удалить
+
+5. Товары: добавить
+6. Товары: показать все
+7. Товары: найти по ID
+8. Товары: удалить
+
+9. Покупатели: добавить
+10. Покупатели: показать все
+11. Покупатели: найти по ID
+12. Покупатели: удалить
+
+13. Заказы: добавить
+14. Заказы: показать все
+15. Заказы: найти по ID
+16. Заказы: удалить
+
+17. Элементы заказа: добавить
+18. Элементы заказа: показать все
+19. Элементы заказа: найти по ID
+20. Элементы заказа: удалить
+
+21. Выход
 ============================
 ''');
 
       final choice = InputHelper.askInt('Выберите пункт: ');
 
       switch (choice) {
-        case 1:
-          addCategory();
-          break;
-        case 2:
-          showCategories();
-          break;
-        case 3:
-          deleteCategory();
-          break;
-        case 4:
-          addProduct();
-          break;
-        case 5:
-          showProducts();
-          break;
-        case 6:
-          deleteProduct();
-          break;
-        case 7:
-          addCustomer();
-          break;
-        case 8:
-          showCustomers();
-          break;
-        case 9:
-          deleteCustomer();
-          break;
-        case 10:
-          addOrder();
-          break;
-        case 11:
-          showOrders();
-          break;
-        case 12:
-          deleteOrder();
-          break;
-        case 13:
-          addOrderItem();
-          break;
-        case 14:
-          showOrderItems();
-          break;
-        case 15:
-          deleteOrderItem();
-          break;
-        case 16:
+        case 1: addCategory(); break;
+        case 2: showCategories(); break;
+        case 3: searchCategory(); break;
+        case 4: deleteCategory(); break;
+        
+        case 5: addProduct(); break;
+        case 6: showProducts(); break;
+        case 7: searchProduct(); break;
+        case 8: deleteProduct(); break;
+        
+        case 9: addCustomer(); break;
+        case 10: showCustomers(); break;
+        case 11: searchCustomer(); break;
+        case 12: deleteCustomer(); break;
+        
+        case 13: addOrder(); break;
+        case 14: showOrders(); break;
+        case 15: searchOrder(); break;
+        case 16: deleteOrder(); break;
+        
+        case 17: addOrderItem(); break;
+        case 18: showOrderItems(); break;
+        case 19: searchOrderItem(); break;
+        case 20: deleteOrderItem(); break;
+        
+        case 21:
           print('Выход...');
           return;
         default:
@@ -98,6 +88,7 @@ class Menu {
     }
   }
 
+  
   void addCategory() {
     final name = InputHelper.ask('Название категории: ');
     final category = Category(name: name);
@@ -107,8 +98,19 @@ class Menu {
 
   void showCategories() {
     final list = categoryRepo.getAll();
+    if (list.isEmpty) print('Список категорий пуст.');
     for (final c in list) {
       print('ID: ${c.id}, Название: ${c.name}');
+    }
+  }
+
+  void searchCategory() {
+    final id = InputHelper.askInt('ID категории для поиска: ');
+    final category = categoryRepo.getById(id);
+    if (category != null) {
+      print('[Найдено] ID: ${category.id}, Название: ${category.name}');
+    } else {
+      print('Категория с ID $id не найдена.');
     }
   }
 
@@ -118,6 +120,7 @@ class Menu {
     print('Категория удалена!');
   }
 
+  
   void addProduct() {
     final name = InputHelper.ask('Название товара: ');
     final price = InputHelper.askDouble('Цена: ');
@@ -136,8 +139,19 @@ class Menu {
 
   void showProducts() {
     final list = productRepo.getAll();
+    if (list.isEmpty) print('Список товаров пуст.');
     for (final p in list) {
       print('ID: ${p.id}, Название: ${p.name}, Цена: ${p.price}, Кол-во: ${p.stock}, КатегорияID: ${p.categoryId}');
+    }
+  }
+
+  void searchProduct() {
+    final id = InputHelper.askInt('ID товара для поиска: ');
+    final p = productRepo.getById(id);
+    if (p != null) {
+      print('[Найдено] ID: ${p.id}, Название: ${p.name}, Цена: ${p.price}, Кол-во: ${p.stock}, КатегорияID: ${p.categoryId}');
+    } else {
+      print('Товар с ID $id не найден.');
     }
   }
 
@@ -147,6 +161,7 @@ class Menu {
     print('Товар удален!');
   }
 
+  
   void addCustomer() {
     final firstName = InputHelper.ask('Имя: ');
     final lastName = InputHelper.ask('Фамилия: ');
@@ -159,8 +174,19 @@ class Menu {
 
   void showCustomers() {
     final list = customerRepo.getAll();
+    if (list.isEmpty) print('Список покупателей пуст.');
     for (final c in list) {
       print('ID: ${c.id}, ${c.firstName} ${c.lastName}, Тел: ${c.phone}, Email: ${c.email}');
+    }
+  }
+
+  void searchCustomer() {
+    final id = InputHelper.askInt('ID покупателя для поиска: ');
+    final c = customerRepo.getById(id);
+    if (c != null) {
+      print('[Найдено] ID: ${c.id}, ${c.firstName} ${c.lastName}, Тел: ${c.phone}, Email: ${c.email}');
+    } else {
+      print('Покупатель с ID $id не найден.');
     }
   }
 
@@ -170,6 +196,7 @@ class Menu {
     print('Покупатель удален!');
   }
 
+  
   void addOrder() {
     final customerId = InputHelper.askInt('ID покупателя: ');
     
@@ -186,8 +213,19 @@ class Menu {
 
   void showOrders() {
     final list = orderRepo.getAll();
+    if (list.isEmpty) print('Список заказов пуст.');
     for (final o in list) {
       print('ID: ${o.id}, CustomerID: ${o.customerId}, Дата: ${o.orderDate}');
+    }
+  }
+
+  void searchOrder() {
+    final id = InputHelper.askInt('ID заказа для поиска: ');
+    final o = orderRepo.getById(id);
+    if (o != null) {
+      print('[Найдено] ID: ${o.id}, CustomerID: ${o.customerId}, Дата: ${o.orderDate}');
+    } else {
+      print('Заказ с ID $id не найден.');
     }
   }
 
@@ -197,6 +235,7 @@ class Menu {
     print('Заказ удален!');
   }
 
+  
   void addOrderItem() {
     final orderId = InputHelper.askInt('ID заказа: ');
     
@@ -220,8 +259,19 @@ class Menu {
 
   void showOrderItems() {
     final list = orderItemRepo.getAll();
+    if (list.isEmpty) print('Список элементов заказов пуст.');
     for (final i in list) {
       print('ID: ${i.id}, OrderID: ${i.orderId}, ProductID: ${i.productId}, Кол-во: ${i.quantity}');
+    }
+  }
+
+  void searchOrderItem() {
+    final id = InputHelper.askInt('ID элемента заказа для поиска: ');
+    final i = orderItemRepo.getById(id);
+    if (i != null) {
+      print('[Найдено] ID: ${i.id}, OrderID: ${i.orderId}, ProductID: ${i.productId}, Кол-во: ${i.quantity}');
+    } else {
+      print('Элемент заказа с ID $id не найден.');
     }
   }
 

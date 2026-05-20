@@ -31,4 +31,9 @@ class CategoryRepository {
   final result = db.select('SELECT 1 FROM categories WHERE category_id = ?', [id]);
   return result.isNotEmpty;
 }
+Category? getById(int id) {
+  final result = db.select('SELECT * FROM categories WHERE category_id = ?', [id]);
+  if (result.isEmpty) return null;
+  return Category.fromMap(result.first);
+}
 }
